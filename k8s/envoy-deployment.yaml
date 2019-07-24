@@ -30,8 +30,6 @@ spec:
       - name: envoy
         image: envoyproxy/envoy-alpine:v1.9.1
         ports:
-        - name: http
-          containerPort: 80
         - name: https
           containerPort: 443
         volumeMounts:
