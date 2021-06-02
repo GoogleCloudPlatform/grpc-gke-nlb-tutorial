@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,31 +15,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: echo-grpc
+  name: reverse-grpc
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: echo-grpc
+      app: reverse-grpc
   template:
     metadata:
       labels:
-        app: echo-grpc
+        app: reverse-grpc
     spec:
       containers:
-      - name: echo-grpc
-        image: gcr.io/GOOGLE_CLOUD_PROJECT/echo-grpc
-        imagePullPolicy: Always
-        env:
-        - name: "PORT"
-          value: "8081"
+      - name: reverse-grpc
+        image: reverse-grpc
         ports:
-        - containerPort: 8081
+        - containerPort: 8082
+        env:
+        - name: PORT
+          value: "8082"
+        resources:
+          requests:
+            cpu: 50m
+            ephemeral-storage: 128Mi
+            memory: 128Mi
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8081"]
-          initialDelaySeconds: 1
-        livenessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8081"]
-          initialDelaySeconds: 1
+            command: ["/bin/grpc_health_probe", "-addr=:8082"]

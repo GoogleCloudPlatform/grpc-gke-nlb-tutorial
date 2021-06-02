@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// https://github.com/golang/go/wiki/Modules
+module github.com/googlecloudplatform/grpc-gke-nlb-tutorial/echo-grpc
 
-module github.com/GoogleCloudPlatform/grpc-gke-nlb-tutorial/echo-grpc
-
-go 1.12
+go 1.16
 
 require (
-	github.com/golang/protobuf v1.3.1 // indirect
-	golang.org/x/net v0.0.0-20190522155817-f3200d17e092 // indirect
-	google.golang.org/grpc v1.32.0
+	google.golang.org/grpc v1.38.0
+	google.golang.org/protobuf v1.25.0
 )

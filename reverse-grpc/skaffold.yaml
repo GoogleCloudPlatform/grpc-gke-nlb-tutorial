@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,16 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: Service
+apiVersion: skaffold/v2beta15
+kind: Config
 metadata:
-  name: echo-grpc
-spec:
-  selector:
-    app: echo-grpc
-  type: ClusterIP
-  clusterIP: None  # headless service
-  ports:
-  - name: http2-echo
-    protocol: TCP
-    port: 8081  # no targetPort for headless service
+  name: reverse-grpc
+build:
+  artifacts:
+  - image: reverse-grpc
+  tagPolicy:
+    sha256: {}
+deploy:
+  kubectl:
+    manifests:
+    - k8s/*.yaml

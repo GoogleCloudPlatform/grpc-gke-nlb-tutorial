@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import (
 	"net"
 	"os"
 
-	"github.com/GoogleCloudPlatform/grpc-gke-nlb-tutorial/echo-grpc/api"
-	"github.com/GoogleCloudPlatform/grpc-gke-nlb-tutorial/echo-grpc/health"
+	"github.com/googlecloudplatform/grpc-gke-nlb-tutorial/echo-grpc/api"
+	"github.com/googlecloudplatform/grpc-gke-nlb-tutorial/echo-grpc/health"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"

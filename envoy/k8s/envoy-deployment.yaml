@@ -1,4 +1,4 @@
-# Copyright 2019 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,10 +28,15 @@ spec:
     spec:
       containers:
       - name: envoy
-        image: envoyproxy/envoy-alpine:v1.9.1
+        image: envoyproxy/envoy:v1.18.3
         ports:
         - name: https
-          containerPort: 443
+          containerPort: 8443
+        resources:
+          requests:
+            cpu: 10m
+            ephemeral-storage: 256Mi
+            memory: 256Mi
         volumeMounts:
         - name: config
           mountPath: /etc/envoy
@@ -39,22 +44,12 @@ spec:
           mountPath: /etc/ssl/envoy
         readinessProbe:
           httpGet:
-            scheme: HTTPS
-            path: /healthz
+            port: https
             httpHeaders:
             - name: x-envoy-livenessprobe
               value: healthz
-            port: 443
-          initialDelaySeconds: 3
-        livenessProbe:
-          httpGet:
-            scheme: HTTPS
             path: /healthz
-            httpHeaders:
-            - name: x-envoy-livenessprobe
-              value: healthz
-            port: 443
-          initialDelaySeconds: 10
+            scheme: HTTPS
       volumes:
       - name: config
         configMap:

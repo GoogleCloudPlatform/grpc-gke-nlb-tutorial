@@ -1,4 +1,4 @@
-// Copyright 2019 Google LLC
+// Copyright 2021 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:generate protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative echo.proto
+
 package api
 
 import (
@@ -24,7 +26,9 @@ import (
 )
 
 // Server for the Echo gRPC API
-type Server struct{}
+type Server struct {
+	UnimplementedEchoServer
+}
 
 // Echo the content of the request
 func (s *Server) Echo(ctx context.Context, in *EchoRequest) (*EchoResponse, error) {
