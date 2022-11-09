@@ -12,15 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: skaffold/v2beta15
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: echo-grpc
 build:
   artifacts:
   - image: echo-grpc
+    ko:
+      fromImage: gcr.io/distroless/static:nonroot
   tagPolicy:
-    sha256: {}
+    inputDigest: {}
 deploy:
   kubectl:
     manifests:

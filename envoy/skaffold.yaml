@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: skaffold/v2beta15
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: envoy
 deploy:
-  kubectl:
-    manifests:
-    - k8s/*.yaml
+  kustomize:
+    paths:
+    - k8s

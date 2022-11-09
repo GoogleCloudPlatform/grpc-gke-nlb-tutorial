@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: envoy
-        image: envoyproxy/envoy:v1.18.3
+        image: envoyproxy/envoy:v1.24.0@sha256:9ae6b26d14ce92f67cd500cb3e5a89aa3351e013140f8b06c36619d929687ce0
         ports:
         - name: https
           containerPort: 8443

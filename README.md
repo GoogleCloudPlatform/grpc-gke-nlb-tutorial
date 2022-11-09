@@ -3,11 +3,11 @@
 This repository contains the code used in the tutorial
 [Using Envoy Proxy to load-balance gRPC services on GKE](https://cloud.google.com/architecture/exposing-grpc-services-on-gke-using-envoy-proxy).
 
-This tutorial demonstrates how to expose multiple [gRPC](https://grpc.io/)
+The tutorial demonstrates how to expose multiple [gRPC](https://grpc.io/)
 services deployed on
 [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine/)
 via a single external IP address using
-[Network Load Balancing](https://cloud.google.com/load-balancing/docs/network/)
+[External TCP/UDP Network Load Balancing](https://cloud.google.com/load-balancing/docs/network/)
 and [Envoy Proxy](https://www.envoyproxy.io/). The tutorial uses Envoy Proxy to
 highlight some of the advanced features it provides for gRPC.
 
@@ -36,13 +36,23 @@ highlight some of the advanced features it provides for gRPC.
     ```
 
 3.  Build the container images for the sample apps `echo-grpc` and
-    `reverse-grpc`, and deploy all the resources in this repository to a
-    Kubernetes cluster, using [Skaffold](https://skaffold.dev):
+    `reverse-grpc`, push them to a registry, and deploy them to a Kubernetes
+    cluster, using [Skaffold](https://skaffold.dev):
 
     ```sh
-    export SKAFFOLD_DEFAULT_REPO=gcr.io/$(gcloud config get-value core/project)
+    skaffold run \
+        --default-repo=gcr.io/$(gcloud config get-value core/project) \
+        --module=echo-grpc,reverse-grpc \
+        --skip-tests
+    ```
 
-    skaffold run
+4.  Deploy Envoy to the Kubernetes cluster:
+
+    ```sh
+    skaffold run \
+        --digest-source=none \
+        --module=envoy \
+        --skip-tests
     ```
 
 ## Test the solution
@@ -93,13 +103,13 @@ highlight some of the advanced features it provides for gRPC.
 2.  Delete the container images from Container Registry:
 
     ```sh
-    gcloud container images list-tags gcr.io/$GOOGLE_CLOUD_PROJECT/echo-grpc \
+    gcloud container images list-tags gcr.io/$(gcloud config get-value core/project)/echo-grpc \
         --format 'value(digest)' | xargs -I {} gcloud container images delete \
-        --force-delete-tags --quiet gcr.io/$GOOGLE_CLOUD_PROJECT/echo-grpc@sha256:{}
+        --force-delete-tags --quiet gcr.io/$(gcloud config get-value core/project)/echo-grpc@sha256:{}
 
-    gcloud container images list-tags gcr.io/$GOOGLE_CLOUD_PROJECT/reverse-grpc \
+    gcloud container images list-tags gcr.io/$(gcloud config get-value core/project)/reverse-grpc \
         --format 'value(digest)' | xargs -I {} gcloud container images delete \
-        --force-delete-tags --quiet gcr.io/$GOOGLE_CLOUD_PROJECT/reverse-grpc@sha256:{}
+        --force-delete-tags --quiet gcr.io/$(gcloud config get-value core/project)/reverse-grpc@sha256:{}
     ```
 
 ## Disclaimer

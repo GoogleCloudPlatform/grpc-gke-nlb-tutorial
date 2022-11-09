@@ -40,5 +40,5 @@ spec:
             ephemeral-storage: 128Mi
             memory: 128Mi
         readinessProbe:
-          exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8082"]
+          grpc:
+            port: 8082
